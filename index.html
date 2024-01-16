@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>&lt;model-viewer&gt; template</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="&lt;model-viewer&gt; template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- <model-viewer> HTML element -->
+    <button onclick="reloadModel1()">yes</button>
+    <button onclick="reloadModel2()">no</button>
+    <button onclick="reloadModel3()">mmmm</button>
+    <model-viewer
+      id="myModel"
+      src="14_05_01_00361.glb"
+      camera-controls
+      model-is-visible
+      poster="poster.webp"
+    >
+      <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+      </div>
+      <button slot="ar-button" id="ar-button">View in your space</button>
+      <div id="ar-prompt">
+        <img src="ar_hand_prompt.png" />
+      </div>
+    </model-viewer>
+    <div style="margin-top: 1000px"></div>
+    <script>
+      const modelViewer = document.getElementById("myModel");
+
+      function reloadModel1() {
+        modelViewer.setAttribute("src", "14_05_01_00361.glb"); // Make the model transparent
+      }
+      function reloadModel2() {
+        modelViewer.setAttribute("src", "Plan-3D-portique-de-manutention.glb"); // Make the model transparent
+      }
+      function reloadModel3() {
+        modelViewer.removeAttribute("src"); // Make the model transparent
+      }
+
+      // Set up the Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          // Check if the model is in the viewport
+          if (entry.isIntersecting) {
+            console.log("visible");
+
+            modelViewer.setAttribute("src", "14_05_01_00361.glb"); // Make the model visible
+          } else {
+            console.log("hidden");
+            modelViewer.removeAttribute("src"); // Make the model transparent
+          }
+        });
+      });
+
+      // Start observing the model viewer element
+      observer.observe(modelViewer);
+    </script>
+    <script src="script.js"></script>
+    <!-- Loads <model-viewer> for browsers: -->
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.2.0/model-viewer.min.js"
+    ></script>
+  </body>
+</html>
